@@ -17,7 +17,7 @@ import android.widget.TextView
 /**
  * Created by mukeshsolanki on 28/02/19.
  */
-class PlacesAutoCompleteAdapter(mContext: Context, val placesApi: PlaceAPI) :
+class PlacesAutoCompleteAdapter(mContext: Context, val placesApi: PlaceAPI, val type : String?=null) :
     ArrayAdapter<Place>(mContext, layout.autocomplete_list_item), Filterable {
 
   var resultList: ArrayList<Place>? = ArrayList()
@@ -80,7 +80,7 @@ class PlacesAutoCompleteAdapter(mContext: Context, val placesApi: PlaceAPI) :
       override fun performFiltering(constraint: CharSequence?): FilterResults {
         val filterResults = FilterResults()
         if (constraint != null) {
-          resultList = placesApi.autocomplete(constraint.toString())
+          resultList = placesApi.autocomplete(constraint.toString(), type)
           resultList?.add(Place("-1", "footer"))
           filterResults.values = resultList
           filterResults.count = resultList!!.size

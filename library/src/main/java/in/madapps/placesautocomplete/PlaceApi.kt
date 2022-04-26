@@ -28,7 +28,7 @@ class PlaceAPI private constructor(
   /**
    * Used to get details for the places api to be showed in the auto complete list
    */
-  internal fun autocomplete(input: String): ArrayList<Place>? {
+  internal fun autocomplete(input: String, type: String? = null): ArrayList<Place>? {
     checkInitialization()
     val resultList: ArrayList<Place>? = null
     var conn: HttpURLConnection? = null
@@ -36,6 +36,9 @@ class PlaceAPI private constructor(
     try {
       val sb = buildApiUrl(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON)
       sb.append("&input=" + URLEncoder.encode(input, "utf8"))
+      type?.let {
+        sb.append("&types=" + URLEncoder.encode(it, "utf8"))
+      }
       val url = URL(sb.toString())
       conn = url.openConnection() as HttpURLConnection
       val inputStreamReader = InputStreamReader(conn.inputStream)
